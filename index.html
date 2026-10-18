@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>POWER AI</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#080d18;color:#eef4ff;font:16px system-ui,sans-serif}
+main{max-width:850px;margin:9vh auto;padding:24px}.tag{color:#62e6c4;letter-spacing:4px;font-size:12px}
+h1{font-size:clamp(44px,9vw,76px);margin:12px 0}p{color:#a9b8d0;line-height:1.7}
+.panel{background:#111b2c;border:1px solid #26364c;border-radius:20px;padding:22px;margin-top:28px}
+input,button{padding:14px;border-radius:10px;font:inherit}input{width:100%;background:#08111f;color:white;border:1px solid #34455c}
+button{margin-top:12px;background:#62e6c4;color:#07131b;border:0;font-weight:700;cursor:pointer}
+#reply{white-space:pre-wrap;color:#b8d4eb;margin-top:18px}small{color:#8193ac}
+</style>
+</head>
+<body><main>
+<div class="tag">PERSONAL AI PROJECT</div><h1>POWER AI<span style="color:#62e6c4">.</span></h1>
+<p>Your personal AI project. A clean, responsive interface ready for a cloud AI connection.</p>
+<section class="panel"><h2>Chat Interface</h2>
+<p>This public demo is online-ready, but it is not connected to an AI backend yet.</p>
+<form id="chat"><input id="question" placeholder="Type a message..." required>
+<button type="submit">Send message ↗</button></form><div id="reply" aria-live="polite"></div>
+</section><p><small>POWER AI · Personal project</small></p>
+</main>
+<script>
+document.getElementById('chat').addEventListener('submit',e=>{
+e.preventDefault();
+document.getElementById('reply').textContent='Demo only. Connect a cloud AI backend for real AI answers.';
+});
+</script></body></html>
