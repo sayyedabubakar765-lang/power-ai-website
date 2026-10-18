@@ -1,31 +1,98 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>POWER AI</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#080d18;color:#eef4ff;font:16px system-ui,sans-serif}
-main{max-width:850px;margin:9vh auto;padding:24px}.tag{color:#62e6c4;letter-spacing:4px;font-size:12px}
-h1{font-size:clamp(44px,9vw,76px);margin:12px 0}p{color:#a9b8d0;line-height:1.7}
-.panel{background:#111b2c;border:1px solid #26364c;border-radius:20px;padding:22px;margin-top:28px}
-input,button{padding:14px;border-radius:10px;font:inherit}input{width:100%;background:#08111f;color:white;border:1px solid #34455c}
-button{margin-top:12px;background:#62e6c4;color:#07131b;border:0;font-weight:700;cursor:pointer}
-#reply{white-space:pre-wrap;color:#b8d4eb;margin-top:18px}small{color:#8193ac}
-</style>
-</head>
-<body><main>
-<div class="tag">PERSONAL AI PROJECT</div><h1>POWER AI<span style="color:#62e6c4">.</span></h1>
-<p>Your personal AI project. A clean, responsive interface ready for a cloud AI connection.</p>
-<section class="panel"><h2>Chat Interface</h2>
-<p>This public demo is online-ready, but it is not connected to an AI backend yet.</p>
-<form id="chat"><input id="question" placeholder="Type a message..." required>
-<button type="submit">Send message ↗</button></form><div id="reply" aria-live="polite"></div>
-</section><p><small>POWER AI · Personal project</small></p>
-</main>
+:root{color-scheme:dark;--bg:#090b10;--panel:#10141d;--panel2:#151b27;--line:#252c3a;--text:#f4f6fb;--muted:#919bad;--accent:#8b7cff;--accent2:#5e9bff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px Inter,system-ui,Arial,sans-serif}button,input,textarea{font:inherit}button{cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}.hidden{display:none!important}
+#login{width:min(400px,calc(100% - 32px));margin:16vh auto;padding:30px;border:1px solid var(--line);border-radius:24px;background:var(--panel);box-shadow:0 24px 80px #0007}
+.brand{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:800;letter-spacing:.5px}.mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-size:22px}
+.sub{color:var(--muted);line-height:1.6}input{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;background:#0b0e15;color:var(--text);outline:none}input:focus,textarea:focus{border-color:var(--accent)}
+.primary{border:0;border-radius:12px;padding:12px 16px;color:white;background:linear-gradient(120deg,#7564ee,#4c8dff);font-weight:700}.wide{width:100%;margin-top:12px}
+#error{color:#ff8e9a;margin-top:10px;min-height:20px}
+#app{height:100dvh;display:grid;grid-template-columns:260px minmax(0,1fr)}
+aside{border-right:1px solid var(--line);background:#0c0f16;padding:18px 13px;display:flex;flex-direction:column;gap:16px;min-height:0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;padding:2px 7px 12px}.logo .mark{width:34px;height:34px;border-radius:11px;font-size:17px}
+.new{width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px}
+.section{color:var(--muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 8px}
+#history{overflow:auto;display:flex;flex-direction:column;gap:5px;min-height:0}
+.hist{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;background:transparent;color:#c7cedb;border:1px solid transparent;padding:10px;border-radius:9px}
+.hist:hover{background:var(--panel2);border-color:var(--line)}
+.sidebottom{margin-top:auto;display:flex;flex-direction:column;gap:9px}.status{color:#a5edc3;font-size:12px;padding:9px}.quiet{background:transparent;border:1px solid var(--line);color:#c8cfdd;border-radius:10px;padding:10px}
+main{min-width:0;display:flex;flex-direction:column;min-height:0}
+.topbar{height:66px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px;gap:10px;background:#0b0e14}
+.topname{font-weight:750}.topmeta{font-size:12px;color:var(--muted);margin-top:3px}
+#chat{flex:1;overflow:auto;padding:30px max(20px,calc((100% - 790px)/2));scroll-behavior:smooth}
+.welcome{max-width:650px;margin:12vh auto 30px;text-align:center}.welcome h1{font-size:clamp(28px,4vw,42px);letter-spacing:-1.5px;margin:14px 0}.welcome p{color:var(--muted);line-height:1.7}
+.suggestions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:24px}.suggest{background:var(--panel);border:1px solid var(--line);color:#dfe4f0;border-radius:13px;padding:14px;text-align:left}.suggest:hover{border-color:#7768e7}
+.message{display:flex;gap:12px;margin:0 auto 25px;max-width:790px;align-items:flex-start;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}.avatar{width:31px;height:31px;flex:none;border-radius:10px;display:grid;place-items:center;font-size:12px;font-weight:800;background:var(--panel2);border:1px solid var(--line)}.message.user .avatar{background:#292346;color:#d9d0ff}
+.msgbody{padding-top:3px;min-width:0;flex:1}.role{font-size:12px;font-weight:750;color:#aeb7ca;margin-bottom:5px}.msgtext{color:#edf0f7}.message.assistant .msgtext{color:#d6dce8}
+.composerwrap{padding:12px 20px 18px;border-top:1px solid var(--line);background:linear-gradient(0deg,#090b10 75%,#090b10dd)}.composer{max-width:790px;margin:auto;border:1px solid #303747;background:#111620;border-radius:18px;padding:10px;box-shadow:0 8px 35px #0004}
+#prompt{display:block;width:100%;resize:vertical;min-height:48px;max-height:180px;background:transparent;border:0;color:var(--text);outline:none;padding:8px}
+.tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.tool{border:1px solid var(--line);background:#181e2a;color:#cbd3e1;border-radius:10px;padding:8px 11px}.spacer{flex:1}.hint{max-width:790px;margin:8px auto 0;color:#747f92;font-size:11px;text-align:center}.thinking{color:#a99cff}
+@media(max-width:700px){#app{grid-template-columns:1fr}aside{display:none}.topbar{height:58px;padding:0 15px}#chat{padding:20px 14px}.composerwrap{padding:10px}.suggestions{grid-template-columns:1fr}.welcome{margin-top:8vh}.message{gap:9px}.hint{font-size:10px}}
+</style></head><body>
+<div id="login"><div class="brand"><div class="mark">✦</div><div>POWER AI<div class="sub" style="font-size:12px;font-weight:500">Your personal local assistant</div></div></div>
+<p class="sub">Sign in to start a private conversation with your local AI.</p>
+<form id="loginform"><input id="pw" type="password" autocomplete="current-password" placeholder="Enter access password" required><button class="primary wide">Unlock POWER AI</button></form><div id="error"></div><p class="sub" style="font-size:11px">Local model · Conversation history stored on this computer</p></div>
+<div id="app" class="hidden"><aside>
+<div class="logo"><div class="mark">✦</div><div>POWER AI<div class="sub" style="font-size:11px;font-weight:500">PERSONAL ASSISTANT</div></div></div>
+<button id="new" class="new">＋ &nbsp; New conversation</button><div class="section">Recent conversations</div><div id="history"></div>
+<div class="sidebottom"><div class="status">● <span id="status">Local AI ready</span></div><button id="logout" class="quiet">Log out</button></div>
+</aside><main><header class="topbar"><div><div class="topname">POWER AI <span style="color:#9d91ff">✦</span></div><div class="topmeta">Private local assistant · <span id="model">llama3.2:1b</span></div></div><button id="mobileNew" class="quiet">＋ New</button></header>
+<div id="chat"><div class="welcome" id="welcome"><div class="mark" style="margin:auto;width:54px;height:54px;font-size:26px">✦</div><h1>What can I help with?</h1><p>Ask a question, explore an idea, write code, or get help with a text file.</p><div class="suggestions"><button class="suggest" data-prompt="Explain a difficult topic in simple Hindi.">✧ &nbsp; Explain something</button><button class="suggest" data-prompt="Help me debug this code step by step.">⌘ &nbsp; Debug my code</button><button class="suggest" data-prompt="Give me three practical ideas for a small project.">◈ &nbsp; Brainstorm ideas</button><button class="suggest" data-prompt="Help me make a simple plan for today.">☷ &nbsp; Make a plan</button></div></div></div>
+<div class="composerwrap"><div class="composer"><textarea id="prompt" rows="2" placeholder="Message POWER AI… (Enter to send, Shift+Enter for new line)"></textarea><div class="tools"><button id="voice" class="tool">♩ Voice</button><button id="filebtn" class="tool">＋ File</button><input id="file" type="file" accept=".txt,.md,.py,.js,.html,.css,.json,.csv,.log" hidden><span class="spacer"></span><button id="send" class="primary">Send ↑</button></div></div><div class="hint">AI can make mistakes. Verify important information.</div></div>
+</main></div>
 <script>
-document.getElementById('chat').addEventListener('submit',e=>{
-e.preventDefault();
-document.getElementById('reply').textContent='Demo only. Connect a cloud AI backend for real AI answers.';
-});
+let token='',chatId=null,busy=false;
+const $=id=>document.getElementById(id);
+function setStatus(t,err=false){$('status').textContent=t;$('status').style.color=err?'#ff9aa6':'#a5edc3'}
+function scrollDown(){$('chat').scrollTop=$('chat').scrollHeight}
+function removeWelcome(){$('welcome')?.remove()}
+function bubble(role,text=''){
+ removeWelcome();let d=document.createElement('div');d.className='message '+role;
+ let a=document.createElement('div');a.className='avatar';a.textContent=role==='user'?'YOU':'✦';
+ let body=document.createElement('div');body.className='msgbody';
+ let label=document.createElement('div');label.className='role';label.textContent=role==='user'?'You':'POWER AI';
+ let content=document.createElement('div');content.className='msgtext';content.textContent=text;
+ body.append(label,content);d.append(a,body);$('chat').append(d);scrollDown();return content
+}
+async function req(path){let r=await fetch(path,{headers:{'X-POWER-TOKEN':token}});let d=await r.json();if(!r.ok)throw Error(d.error||'Request failed');return d}
+function showWelcome(){if(!$('chat').children.length){$('chat').innerHTML='<div class="welcome" id="welcome"><div class="mark" style="margin:auto;width:54px;height:54px;font-size:26px">✦</div><h1>What can I help with?</h1><p>Ask a question, explore an idea, write code, or get help with a text file.</p><div class="suggestions"><button class="suggest" data-prompt="Explain a difficult topic in simple Hindi.">✧ &nbsp; Explain something</button><button class="suggest" data-prompt="Help me debug this code step by step.">⌘ &nbsp; Debug my code</button><button class="suggest" data-prompt="Give me three practical ideas for a small project.">◈ &nbsp; Brainstorm ideas</button><button class="suggest" data-prompt="Help me make a simple plan for today.">☷ &nbsp; Make a plan</button></div></div>';wireSuggestions()}}
+function wireSuggestions(){document.querySelectorAll('[data-prompt]').forEach(b=>b.onclick=()=>{ $('prompt').value=b.dataset.prompt;$('prompt').focus()})}
+function newChat(){if(busy)return;chatId=null;$('chat').replaceChildren();showWelcome();$('prompt').focus();setStatus('Ready')}
+$('new').onclick=newChat;$('mobileNew').onclick=newChat;$('logout').onclick=()=>location.reload();$('send').onclick=send;
+$('prompt').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}};
+$('filebtn').onclick=()=>$('file').click();
+$('loginform').onsubmit=async e=>{e.preventDefault();$('error').textContent='Checking password…';try{
+ let r=await fetch('/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:$('pw').value})});
+ let d=await r.json();if(!r.ok)throw Error(d.error||'Login failed');token=d.token;
+ $('login').classList.add('hidden');$('app').classList.remove('hidden');newChat();await showHistory();setStatus('Ready');
+}catch(e){$('error').textContent=e.message}};
+async function send(){let text=$('prompt').value.trim();if(!text||busy)return;
+ busy=true;$('send').disabled=true;$('send').textContent='Thinking…';$('prompt').value='';
+ bubble('user',text);let out=bubble('assistant','Thinking…');out.classList.add('thinking');setStatus('Generating…');
+ try{
+  let r=await fetch('/chat',{method:'POST',headers:{'Content-Type':'application/json','X-POWER-TOKEN':token},body:JSON.stringify({id:chatId,text})});
+  if(!r.ok){let d=await r.json();throw Error(d.error||'Chat request failed')}
+  chatId=Number(r.headers.get('X-Chat-ID'))||chatId;out.textContent='';out.classList.remove('thinking');
+  let reader=r.body.getReader(),decoder=new TextDecoder();
+  while(true){let x=await reader.read();if(x.done)break;out.textContent+=decoder.decode(x.value,{stream:true});scrollDown()}
+  if(!out.textContent.trim())out.textContent='No response received. Please try again.';
+  setStatus('Ready');await showHistory();
+ }catch(e){out.classList.remove('thinking');out.textContent='Unable to get a reply: '+e.message;setStatus('Error',true)}
+ finally{busy=false;$('send').disabled=false;$('send').textContent='Send ↑';$('prompt').focus()}
+}
+async function showHistory(){try{let d=await req('/history');$('history').replaceChildren();d.chats.forEach(c=>{
+ let b=document.createElement('button');b.className='hist';b.textContent=c.title||'New conversation';b.title=b.textContent;b.onclick=()=>openChat(c.id);$('history').append(b)
+ })}catch(e){setStatus('History unavailable',true)}}
+async function openChat(id){if(busy)return;try{let d=await req('/history?id='+encodeURIComponent(id));chatId=id;$('chat').replaceChildren();
+ if(!d.messages.length){showWelcome();return}d.messages.forEach(m=>bubble(m.role,m.content));scrollDown()
+ }catch(e){bubble('assistant','Could not open conversation: '+e.message)}}
+$('voice').onclick=()=>{let S=window.SpeechRecognition||window.webkitSpeechRecognition;if(!S){bubble('assistant','Voice input is not supported in this browser. You can type your message instead.');return}
+ let s=new S();s.lang='hi-IN';s.onresult=e=>{$('prompt').value=e.results[0][0].transcript;$('prompt').focus()};s.onerror=()=>setStatus('Voice input unavailable',true);s.start()};
+$('file').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{if(f.size>1000000)throw Error('Please choose a text file under 1 MB.');
+ let t=await f.text();$('prompt').value='Analyze this file ('+f.name+'):\n'+t.slice(0,8000);$('prompt').focus()
+ }catch(err){bubble('assistant',err.message)}finally{e.target.value=''}};
+wireSuggestions();
 </script></body></html>
